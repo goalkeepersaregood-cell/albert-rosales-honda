@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Albert Rosales — Honda Promo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow:hidden}
+
+    /* 9:16 canvas */
+    .reel{width:405px;height:720px;position:relative;overflow:hidden;background:#0D0D0D;flex-shrink:0;font-family:'Inter',sans-serif}
+
+    /* ── BG ELEMENTS ── */
+    .bg-red-orb{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(204,0,0,.18) 0%,transparent 65%);top:-80px;right:-100px;pointer-events:none;z-index:0}
+    .bg-red-orb2{position:absolute;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(204,0,0,.1) 0%,transparent 65%);bottom:-60px;left:-80px;pointer-events:none;z-index:0}
+    .bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+    .bg-noise{position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;pointer-events:none;z-index:0}
+
+    /* ── STORY DOTS ── */
+    .dots{position:absolute;top:10px;left:14px;right:14px;display:flex;gap:4px;z-index:20}
+    .dot{flex:1;height:2.5px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden}
+    .dot-f{height:100%;background:#fff;transform:scaleX(0);transform-origin:left}
+
+    /* 5 scenes × 5s each = 25s */
+    .dot:nth-child(1) .dot-f{animation:df1 25s linear infinite}
+    .dot:nth-child(2) .dot-f{animation:df2 25s linear infinite}
+    .dot:nth-child(3) .dot-f{animation:df3 25s linear infinite}
+    .dot:nth-child(4) .dot-f{animation:df4 25s linear infinite}
+    .dot:nth-child(5) .dot-f{animation:df5 25s linear infinite}
+    @keyframes df1{0%{transform:scaleX(0)}20%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+    @keyframes df2{0%,20%{transform:scaleX(0)}40%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+    @keyframes df3{0%,40%{transform:scaleX(0)}60%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+    @keyframes df4{0%,60%{transform:scaleX(0)}80%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+    @keyframes df5{0%,80%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+
+    /* handle */
+    .handle{position:absolute;top:22px;right:14px;z-index:20;font-size:9px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.1em}
+
+    /* ── SCENES ── */
+    .scene{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 28px 40px}
+
+    /* SCENE 1 — Intro */
+    .s1{animation:fade25 25s ease infinite}
+    @keyframes fade25{0%{opacity:0}3%{opacity:1}18%{opacity:1}21%{opacity:0}100%{opacity:0}}
+
+    .s1-h-line{width:0;height:2px;background:var(--r,#CC0000);animation:linegrow 25s ease infinite;margin:0 auto 20px}
+    @keyframes linegrow{0%,3%{width:0}10%{width:60px}18%{width:60px}21%{width:0}100%{width:0}}
+
+    .s1-badge{opacity:0;transform:translateY(12px);animation:s1up 25s ease infinite}
+    @keyframes s1up{0%,4%{opacity:0;transform:translateY(12px)}8%{opacity:1;transform:translateY(0)}18%{opacity:1}21%{opacity:0}100%{opacity:0}}
+    .s1-name{opacity:0;transform:translateY(10px);animation:s1up2 25s ease infinite}
+    @keyframes s1up2{0%,6%{opacity:0;transform:translateY(10px)}10%{opacity:1;transform:translateY(0)}18%{opacity:1}21%{opacity:0}100%{opacity:0}}
+    .s1-sub{opacity:0;animation:s1up3 25s ease infinite}
+    @keyframes s1up3{0%,8%{opacity:0}12%{opacity:1}18%{opacity:1}21%{opacity:0}100%{opacity:0}}
+    .s1-tag{opacity:0;transform:translateY(8px);animation:s1up4 25s ease infinite}
+    @keyframes s1up4{0%,10%{opacity:0;transform:translateY(8px)}14%{opacity:1;transform:translateY(0)}18%{opacity:1}21%{opacity:0}100%{opacity:0}}
+
+    /* Honda H SVG pulse */
+    .honda-h{animation:hpulse 2.4s ease-in-out infinite}
+    @keyframes hpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+
+    /* SCENE 2 — Civic */
+    .s2{animation:s2fade 25s ease infinite;padding:0}
+    @keyframes s2fade{0%,19%{opacity:0;transform:translateY(10px)}22%{opacity:1;transform:translateY(0)}38%{opacity:1}41%{opacity:0}100%{opacity:0}}
+
+    /* SCENE 3 — CR-V */
+    .s3{animation:s3fade 25s ease infinite;padding:0}
+    @keyframes s3fade{0%,39%{opacity:0;transform:translateY(10px)}42%{opacity:1;transform:translateY(0)}58%{opacity:1}61%{opacity:0}100%{opacity:0}}
+
+    /* SCENE 4 — Pilot */
+    .s4{animation:s4fade 25s ease infinite;padding:0}
+    @keyframes s4fade{0%,59%{opacity:0;transform:translateY(10px)}62%{opacity:1;transform:translateY(0)}78%{opacity:1}81%{opacity:0}100%{opacity:0}}
+
+    /* SCENE 5 — CTA */
+    .s5{animation:s5fade 25s ease infinite}
+    @keyframes s5fade{0%,79%{opacity:0;transform:scale(.97)}82%{opacity:1;transform:scale(1)}97%{opacity:1}100%{opacity:0}}
+
+    /* ── CAR SCENE LAYOUT ── */
+    .car-scene{width:100%;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+    .car-bg{position:absolute;inset:0;background:linear-gradient(160deg,#0D0D0D 0%,#1a0000 60%,#0D0D0D 100%)}
+    .car-top{position:relative;z-index:2;padding:60px 22px 0;flex:0 0 auto}
+    .car-img-wrap{flex:1;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .car-img-wrap img{width:115%;max-width:480px;object-fit:contain;filter:drop-shadow(0 20px 60px rgba(204,0,0,.3));animation:carfloat 3s ease-in-out infinite}
+    @keyframes carfloat{0%,100%{transform:translateY(0) translateX(-5%)}50%{transform:translateY(-8px) translateX(-5%)}}
+    .car-bottom{position:relative;z-index:2;padding:0 22px 32px;flex:0 0 auto}
+
+    /* accent bar */
+    .acc-bar{width:32px;height:3px;background:#CC0000;border-radius:2px;margin-bottom:10px}
+    .car-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(204,0,0,.12);border:1px solid rgba(204,0,0,.3);padding:4px 12px;border-radius:100px;font-size:8px;font-weight:700;color:#CC0000;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}
+    .car-model{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1;margin-bottom:4px}
+    .car-model span{color:#CC0000}
+    .car-trim-line{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+    .car-price-row{display:flex;align-items:flex-end;gap:12px;margin-bottom:14px}
+    .car-price-label{font-size:9px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+    .car-price-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;letter-spacing:-.02em}
+    .car-mpg{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 12px;text-align:center}
+    .car-mpg-n{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff}
+    .car-mpg-l{font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-top:1px}
+    .car-cta-strip{background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.25);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+    .car-cta-text{font-size:11px;font-weight:600;color:rgba(255,255,255,.7)}
+    .car-cta-url{font-size:9px;color:#CC0000;letter-spacing:.04em;font-weight:600}
+
+    /* red sweep line */
+    .sweep{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#CC0000,transparent);opacity:.6;z-index:4}
+
+    /* ── CTA SCENE ── */
+    .cta-inner{text-align:center;width:100%}
+    .cta-name{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#CC0000;margin-bottom:16px}
+    .cta-h{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1;margin-bottom:6px}
+    .cta-h span{color:#CC0000}
+    .cta-sub{font-size:13px;font-weight:300;color:rgba(255,255,255,.5);margin-bottom:32px;line-height:1.65}
+    .cta-phone{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:.02em}
+    .cta-url-box{display:inline-block;background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.35);padding:10px 20px;border-radius:100px;font-size:9px;font-weight:700;color:#CC0000;letter-spacing:.1em;text-transform:uppercase;margin-bottom:28px}
+    .cta-divider{width:40px;height:1px;background:rgba(255,255,255,.15);margin:0 auto 28px}
+    .cta-dealer{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.08em;line-height:1.8}
+
+    /* bottom progress bar */
+    .prog{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,#CC0000,#ff3333);animation:prog 25s linear infinite;z-index:30;width:0}
+    @keyframes prog{to{width:100%}}
+
+    /* typing cursor blink for CTA */
+    .blink{animation:blink 1s step-end infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  </style>
+</head>
+<body>
+<div class="reel">
+
+  <!-- BG -->
+  <div class="bg-grid"></div>
+  <div class="bg-noise"></div>
+  <div class="bg-red-orb"></div>
+  <div class="bg-red-orb2"></div>
+
+  <!-- story dots -->
+  <div class="dots">
+    <div class="dot"><div class="dot-f"></div></div>
+    <div class="dot"><div class="dot-f"></div></div>
+    <div class="dot"><div class="dot-f"></div></div>
+    <div class="dot"><div class="dot-f"></div></div>
+    <div class="dot"><div class="dot-f"></div></div>
+  </div>
+  <div class="handle">@albertfromhonda</div>
+
+  <!-- ── SCENE 1: INTRO ── -->
+  <div class="scene s1" style="gap:0">
+    <!-- Honda H -->
+    <div class="honda-h" style="margin-bottom:20px">
+      <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="70" height="70" rx="12" fill="#CC0000"/>
+        <path d="M15 17h7.5v14h11V17H41v36h-7.5V33h-11v20H15V17z" fill="white"/>
+      </svg>
+    </div>
+    <div class="s1-h-line"></div>
+    <div class="s1-badge" style="font-size:9px;font-weight:700;color:#CC0000;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px">Honda Sales Consultant</div>
+    <div class="s1-name" style="font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:#fff;letter-spacing:-.03em;text-align:center;line-height:1.05;margin-bottom:10px">Albert<br/>Rosales</div>
+    <div class="s1-sub" style="font-size:12px;color:rgba(255,255,255,.4);letter-spacing:.06em;text-align:center;margin-bottom:20px">Norm Reeves Honda · Cerritos, CA</div>
+    <div class="s1-tag" style="display:inline-flex;align-items:center;gap:8px;background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.25);padding:8px 18px;border-radius:100px;font-size:10px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.1em">
+      <span style="width:6px;height:6px;border-radius:50%;background:#CC0000;flex-shrink:0;animation:blink 1.2s ease-in-out infinite"></span>
+      No pressure · No runaround · Just results
+    </div>
+  </div>
+
+  <!-- ── SCENE 2: CIVIC ── -->
+  <div class="scene s2">
+    <div class="car-scene">
+      <div class="car-bg"></div>
+      <div class="car-top">
+        <div class="car-badge">✦ 2026 Model · In Stock Now</div>
+        <div class="car-model">Honda<br/><span>Civic</span></div>
+        <div class="car-trim-line">Sedan · Hatchback · Si · Type R</div>
+      </div>
+      <div class="car-img-wrap">
+        <img src="https://automobiles.honda.com/-/media/Honda-Automobiles/Vehicles/2026/civic-sedan/non-VLP/04-Nav/MY26_Civic_Sedan_Petrol_All_Vehicles_Jelly.png" alt="2026 Honda Civic"/>
+      </div>
+      <div class="car-bottom">
+        <div class="car-price-row">
+          <div>
+            <div class="car-price-label">Starting MSRP</div>
+            <div class="car-price-num">$24,695</div>
+          </div>
+          <div class="car-mpg">
+            <div class="car-mpg-n">41</div>
+            <div class="car-mpg-l">HWY MPG</div>
+          </div>
+        </div>
+        <div class="car-cta-strip">
+          <div class="car-cta-text">Ask Albert for a deal 👇</div>
+          <div class="car-cta-url">shorturl.at/KPT25</div>
+        </div>
+      </div>
+      <div class="sweep"></div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 3: CR-V ── -->
+  <div class="scene s3">
+    <div class="car-scene">
+      <div class="car-bg" style="background:linear-gradient(160deg,#0D0D0D 0%,#001a0d 60%,#0D0D0D 100%)"></div>
+      <div class="car-top">
+        <div class="car-badge">✦ 2026 Model · Gas &amp; Hybrid</div>
+        <div class="car-model">Honda<br/><span>CR-V</span></div>
+        <div class="car-trim-line">LX · EX · EX-L · Sport · Hybrid AWD</div>
+      </div>
+      <div class="car-img-wrap">
+        <img src="https://automobiles.honda.com/-/media/Honda-Automobiles/Vehicles/2026/CR-V/nonVLP/Global-Nav/MY26_CR-V_Petrol_BAP_Jelly.png" alt="2026 Honda CR-V"/>
+      </div>
+      <div class="car-bottom">
+        <div class="car-price-row">
+          <div>
+            <div class="car-price-label">Starting MSRP</div>
+            <div class="car-price-num">$30,920</div>
+          </div>
+          <div class="car-mpg">
+            <div class="car-mpg-n">33</div>
+            <div class="car-mpg-l">HWY MPG</div>
+          </div>
+        </div>
+        <div class="car-cta-strip">
+          <div class="car-cta-text">Ask Albert for a deal 👇</div>
+          <div class="car-cta-url">shorturl.at/KPT25</div>
+        </div>
+      </div>
+      <div class="sweep"></div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 4: PILOT ── -->
+  <div class="scene s4">
+    <div class="car-scene">
+      <div class="car-bg" style="background:linear-gradient(160deg,#0D0D0D 0%,#0a0a1a 60%,#0D0D0D 100%)"></div>
+      <div class="car-top">
+        <div class="car-badge">✦ 2026 Model · 8-Passenger</div>
+        <div class="car-model">Honda<br/><span>Pilot</span></div>
+        <div class="car-trim-line">Sport · EX-L · TrailSport · Elite</div>
+      </div>
+      <div class="car-img-wrap">
+        <img src="https://automobiles.honda.com/-/media/Honda-Automobiles/Vehicles/2026/Pilot/non-VLP/Global-Nav/MY26_Pilot_All_Vehicles_Jelly.png" alt="2026 Honda Pilot"/>
+      </div>
+      <div class="car-bottom">
+        <div class="car-price-row">
+          <div>
+            <div class="car-price-label">Starting MSRP</div>
+            <div class="car-price-num">$42,395</div>
+          </div>
+          <div class="car-mpg">
+            <div class="car-mpg-n">27</div>
+            <div class="car-mpg-l">HWY MPG</div>
+          </div>
+        </div>
+        <div class="car-cta-strip">
+          <div class="car-cta-text">Ask Albert for a deal 👇</div>
+          <div class="car-cta-url">shorturl.at/KPT25</div>
+        </div>
+      </div>
+      <div class="sweep"></div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 5: CTA ── -->
+  <div class="scene s5">
+    <div class="cta-inner">
+      <div class="cta-name">Albert Rosales</div>
+      <div class="cta-h">Your Honda<br/><span>Guy.</span></div>
+      <div class="cta-sub">No pressure. No runaround.<br/>Just the right car at the right price.</div>
+      <div class="cta-phone">(323) 816-1783</div>
+      <div class="cta-divider"></div>
+      <div class="cta-url-box">shorturl.at/KPT25</div>
+      <div class="cta-dealer">Norm Reeves Honda Superstore<br/>18500 Studebaker Rd · Cerritos, CA 90703</div>
+    </div>
+  </div>
+
+  <div class="prog"></div>
+</div>
+
+<p style="color:rgba(255,255,255,.2);font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase">Screen record · 25s loop</p>
+</body>
+</html>
